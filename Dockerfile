@@ -1,4 +1,4 @@
-FROM docker.io/library/debian
+FROM docker.io/library/debian:stable
 
 ENV LANG en_US.UTF-8
 ENV LC_ALL C.utf8
