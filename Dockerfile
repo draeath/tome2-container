@@ -1,4 +1,4 @@
-FROM docker.io/library/debian:stable
+FROM docker.io/library/debian:bookworm
 
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=C.utf8
