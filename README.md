@@ -15,4 +15,4 @@ Game binaries are:
   - `/usr/games/tome-gtk2`
   - `/usr/games/tome-x11`
 
-By default it'll run it in ncurses mode (-gcu), but feel free to run whatever you want. How you get Xorg to work with the container is a joy you get to discover yourself. You'll probably need to make changes to the container, and fuss with `--userns` and so on. Have fun.
+Note that I am specifically spoofing the two X11-related dependencies of the tome package, and as-such the `tome-gtk2` and `tome-x11` binaries in this container are intentionally broken. The dependencies increase the container image size. Ideally they'd be packaged separately, but they aren't and so we make do. If you really want them to work, edit the Dockerfile and remove the lines referencing `tome-gui-dummy-deps_1.0_all.deb`. Getting them to do anything useful from within a container, well, I leave that up to you.
