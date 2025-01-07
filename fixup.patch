@@ -1,0 +1,23 @@
+diff --git a/src/init1.hpp b/src/init1.hpp
+index 577c5b00..555af8d2 100644
+--- a/src/init1.hpp
++++ b/src/init1.hpp
+@@ -1,5 +1,6 @@
+ #pragma once
+ 
++#include <cstdio>
+ #include "h-basic.hpp"
+ #include "dungeon_flag_set.hpp"
+ 
+diff --git a/src/squelch/condition.cc b/src/squelch/condition.cc
+index f172df58..f5cbc412 100644
+--- a/src/squelch/condition.cc
++++ b/src/squelch/condition.cc
+@@ -23,6 +23,7 @@
+ #include "../z-term.hpp"
+ 
+ #include <fmt/format.h>
++#include <map>
+ 
+ namespace squelch {
+ 
