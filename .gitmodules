@@ -1,0 +1,4 @@
+[submodule "tome"]
+	shallow = true
+	path = tome
+	url = https://salsa.debian.org/srivasta/tome.git

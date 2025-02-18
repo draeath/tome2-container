@@ -1,14 +1,21 @@
-FROM docker.io/library/debian:bookworm
+FROM docker.io/library/alpine:3.21 AS build
 
-ENV LANG=en_US.UTF-8
-ENV LC_ALL=C.utf8
-ENV DEBIAN_FRONTEND=noninteractive
-COPY debian.sources /etc/apt/sources.list.d/debian.sources
-COPY equivs/tome-gui-dummy-deps_1.0_all.deb /root/tome-gui-dummy-deps_1.0_all.deb
-RUN dpkg -i /root/tome-gui-dummy-deps_1.0_all.deb && apt-mark hold tome-gui-dummy-deps
-RUN apt-get update && apt-get dist-upgrade -y && apt-get autoremove -y \
- && apt-get install --no-install-recommends -y locales-all tini tome \
- && apt-get clean \
- && rm -rvf /var/lib/apt/lists/*
-ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["/usr/games/tome-gcu", "--", "-b"]
+RUN apk update && apk add binutils boost1.84-dev cmake g++ gcc jansson-dev libc-dev make ncurses-dev patch
+ADD tome /root/tome
+COPY fixup.patch /root/tome/fixup.patch
+WORKDIR /root/tome
+RUN patch -p1 < fixup.patch
+ENV CFLAGS="-flto=auto -fwhole-program -fno-fat-lto-objects"
+ENV CXXFLAGS="-flto=auto -fwhole-program -fno-fat-lto-objects"
+RUN cmake -Wno-dev -DSYSTEM_INSTALL:BOOL=true -DCMAKE_BUILD_TYPE=Release .
+RUN make -j$(nproc)
+RUN make install
+RUN strip --strip-unneeded /usr/local/games/tome-gcu
+
+FROM docker.io/library/alpine:3.21 AS runtime
+RUN apk update && apk add tini boost1.84-filesystem libncursesw libstdc++ libgcc
+COPY --from=build /usr/local/games/tome-gcu /usr/local/games/tome-gcu
+COPY --from=build /var/games/tome /var/games/tome
+RUN ln -sv /usr/local/games/tome-gcu /usr/bin/tome
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["/usr/bin/tome", "--", "-b"]
