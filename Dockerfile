@@ -1,4 +1,8 @@
 FROM docker.io/library/alpine:3.21 AS build
+LABEL org.opencontainers.image.source="https://github.com/draeath/tome2-container.git"
+LABEL org.opencontainers.image.version="2.41-ah~0.git.20200131-1"
+LABEL org.opencontainers.image.upstream.source="https://salsa.debian.org/srivasta/tome.git"
+LABEL org.opencontainers.image.upstream.revision="7661a944652f6e71c93a31b2b7f7a4136e360f30"
 
 RUN apk update && apk add binutils boost1.84-dev cmake g++ gcc jansson-dev libc-dev make ncurses-dev patch
 ADD tome /root/tome
