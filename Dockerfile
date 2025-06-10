@@ -1,4 +1,4 @@
-FROM docker.io/library/alpine:3.21 AS build
+FROM docker.io/library/alpine:3.22 AS build
 LABEL org.opencontainers.image.source="https://github.com/draeath/tome2-container.git"
 LABEL org.opencontainers.image.version="2.41-ah~0.git.20200131-1"
 LABEL org.opencontainers.image.upstream.source="https://salsa.debian.org/srivasta/tome.git"
@@ -16,7 +16,7 @@ RUN make -j$(nproc)
 RUN make install
 RUN strip --strip-unneeded /usr/local/games/tome-gcu
 
-FROM docker.io/library/alpine:3.21 AS runtime
+FROM docker.io/library/alpine:3.22 AS runtime
 RUN apk update && apk add tini boost1.84-filesystem libncursesw libstdc++ libgcc
 COPY --from=build /usr/local/games/tome-gcu /usr/local/games/tome-gcu
 COPY --from=build /var/games/tome /var/games/tome
