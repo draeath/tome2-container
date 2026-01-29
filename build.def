@@ -1,0 +1,7 @@
+#######################################
+Bootstrap: docker
+From: docker.io/library/alpine:3.22
+
+%post
+  apk add --no-cache --no-interactive binutils boost1.84-dev cmake g++ gcc jansson-dev libc-dev make ncurses-dev patch
+

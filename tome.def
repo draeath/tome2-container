@@ -1,0 +1,42 @@
+#######################################
+Bootstrap: localimage
+From: ./build.sif
+Stage: build
+
+%setup
+  if ! test -e tome/.git; then
+    git clone --tags https://salsa.debian.org/srivasta/tome.git tome
+  fi
+  if ! test -e tome.tar; then
+    tar cvf tome.tar tome
+  fi
+
+%files
+  tome.tar
+  fixup.patch
+
+%post
+  tar --no-same-owner -xf tome.tar
+  cd tome
+  export CFLAGS="-flto=auto -fwhole-program -fno-fat-lto-objects -march=native -O3"
+  export CXXFLAGS="${CFLAGS}"
+  patch -p1 < ../fixup.patch
+  cmake -Wno-dev -DSYSTEM_INSTALL:BOOL=true -DCMAKE_BUILD_TYPE=Release .
+  make -j$(nproc)
+  make install
+  strip --strip-unneeded /usr/local/games/tome-gcu
+
+#######################################
+Bootstrap: docker
+From: docker.io/library/alpine:3.22
+Stage: runtime
+
+%files from build
+  /usr/local/games/tome-gcu
+  /var/games/tome/
+
+%post
+  apk add --no-cache --no-interactive boost1.84-filesystem libncursesw libstdc++ libgcc
+
+%runscript
+  /usr/local/games/tome-gcu -- -b "${@}"
