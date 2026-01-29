@@ -22,4 +22,4 @@ COPY --from=build /usr/local/games/tome-gcu /usr/local/games/tome-gcu
 COPY --from=build /var/games/tome /var/games/tome
 RUN ln -sv /usr/local/games/tome-gcu /usr/bin/tome
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["/usr/bin/tome", "--", "-b"]
+CMD ["/usr/bin/tome"]

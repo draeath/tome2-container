@@ -39,4 +39,4 @@ Stage: runtime
   apk add --no-cache --no-interactive boost1.84-filesystem libncursesw libstdc++ libgcc
 
 %runscript
-  /usr/local/games/tome-gcu -- -b "${@}"
+  /usr/local/games/tome-gcu "${@}"
