@@ -20,6 +20,5 @@ FROM docker.io/library/alpine:3.22 AS runtime
 RUN apk update && apk add tini boost1.84-filesystem libncursesw libstdc++ libgcc
 COPY --from=build /usr/local/games/tome-gcu /usr/local/games/tome-gcu
 COPY --from=build /var/games/tome /var/games/tome
-RUN ln -sv /usr/local/games/tome-gcu /usr/bin/tome
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["/usr/bin/tome"]
+CMD ["/usr/local/games/tome-gcu"]

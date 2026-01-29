@@ -14,7 +14,7 @@ You should use a volume to keep a copy of `/home/tome/.tome` around. For example
 
 This doesn't exactly roll off the fingertips, so consider setting an alias or writing a wrapper script. You do you.
 
-Game binary is: `/usr/games/tome-gcu` (or the symlink `/usr/bin/tome`)
+Game binary is: `/usr/local/games/tome-gcu`
 
 ----
 
