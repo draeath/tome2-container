@@ -9,8 +9,8 @@ ADD tome /root/tome
 COPY fixup.patch /root/tome/fixup.patch
 WORKDIR /root/tome
 RUN patch -p1 < fixup.patch
-ENV CFLAGS="-flto=auto -fwhole-program -fno-fat-lto-objects"
-ENV CXXFLAGS="-flto=auto -fwhole-program -fno-fat-lto-objects"
+ENV CFLAGS="-flto=auto -fwhole-program -fno-fat-lto-objects -march=native -O2"
+ENV CXXFLAGS="${CFLAGS}"
 RUN cmake -Wno-dev -DSYSTEM_INSTALL:BOOL=true -DCMAKE_BUILD_TYPE=Release .
 RUN make -j$(nproc)
 RUN make install
