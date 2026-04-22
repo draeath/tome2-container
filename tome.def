@@ -20,6 +20,8 @@ Stage: build
   cd tome
   export CFLAGS="-flto=auto -fwhole-program -fno-fat-lto-objects -march=native -O3"
   export CXXFLAGS="${CFLAGS}"
+  export CCACHE_DIR="/tmp/.ccache/"
+  export PATH="/usr/lib/ccache/bin:$PATH"
   patch -p1 < ../fixup.patch
   cmake -Wno-dev -DSYSTEM_INSTALL:BOOL=true -DCMAKE_BUILD_TYPE=Release .
   make -j$(nproc)
