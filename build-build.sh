@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-apptainer build -F build.sif build.def
+apptainer build --mksquashfs-args "-comp lz4" -F build.sif build.def
