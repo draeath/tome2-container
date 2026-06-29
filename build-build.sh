@@ -2,4 +2,4 @@
 set -euo pipefail
 
 unset APPTAINER_BINDPATH
-apptainer build -F build.sif build.def
+apptainer build --mksquashfs-args "-comp gzip -Xcompression-level 6" -F build.sif build.def

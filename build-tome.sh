@@ -5,4 +5,4 @@ unset APPTAINER_BINDPATH
 if test -f tome.tar; then
   unlink tome.tar
 fi
-apptainer build tome.sif tome.def
+apptainer build --mksquashfs-args "-comp gzip -Xcompression-level 6" -F tome.sif tome.def
